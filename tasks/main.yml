@@ -11,3 +11,19 @@
     src=pam_duo.conf.j2
     dest={{ duounix_conf_dir }}/pam_duo.conf
   when: duounix_build_pam
+
+- name: Add duo config to {{ system_sshd_config }}
+  blockinfile: 
+    path: "{{ system_sshd_config }}"
+    block: "{{ system_sshd_config_text }}"
+
+- name: Comment out part of {{ pam_sshd_config }}
+  replace:
+    path: "{{ pam_sshd_config }}"
+    regexp: "{{ pam_sshd_replace_regex }}"
+    replace: '#\1'
+
+- name: Add duo config to {{ pam_sshd_config }}
+  blockinfile:
+    path: "{{ pam_sshd_config }}"
+    block: "{{ pam_sshd_config_text }}"

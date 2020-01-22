@@ -1,5 +1,22 @@
+duounix_package: duo_unix
 duounix_src_deps:
   - openssl-devel
   - pam-devel
 
-duounix_package: duo_unix
+system_sshd_config: /etc/ssh/sshd_config
+pam_sshd_config: /etc/pam.d/sshd
+pam_sshd_replace_regex: '(^auth\s+substack password-auth)$'
+system_sshd_config_text: |
+#
+# added for DUO support
+#
+PubkeyAuthentication yes
+PasswordAuthentication no
+AuthenticationMethods publickey,keyboard-interactive
+pam_sshd_config_text: |
+#
+# added for DUO suppport
+#
+auth  required pam_env.so
+auth  sufficient pam_duo.so
+auth  required pam_deny.so
