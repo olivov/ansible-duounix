@@ -11,8 +11,3 @@
     src=pam_duo.conf.j2
     dest={{ duounix_conf_dir }}/pam_duo.conf
   when: duounix_build_pam
-
-- name: Place login config file
-  template: >
-    src=login_duo.conf.j2
-    dest={{ duounix_conf_dir }}/login_duo.conf
