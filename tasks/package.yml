@@ -1,7 +1,6 @@
 #
 # RedHat-like systems
 #
-
 - name: Test for the GPG key (RedHat-like)
   shell: rpm -qi gpg-pubkey-15d32efc-\*
   register: rpm_gpg_installed
@@ -16,15 +15,16 @@
 
 - name: Install the repo (RedHat-like)
   yum_repository:
-    name: duosecurity
+    name: Duo Security Repository
     description: Official Duo Security repository
     baseurl: http://pkg.duosecurity.com/{{ ansible_distribution }}/$releasever/$basearch
+    enabled: yes
+    gpgcheck: yes
     state: present
   when: ansible_os_family == 'RedHat'
 
 #
 # Common
 #
-
 - name: Install duo_unix
   package: name={{ duounix_package }} state=present
